@@ -8,6 +8,12 @@ const themes=[
 {name:'Nord',bg:'#2e3440',fg:'#eceff4',accent:'#88c0d0',frame:'#242933',tab:'#3b4252',muted:'#d8dee9',branch:'#a3be8c',ansi:['#3b4252','#bf616a','#a3be8c','#ebcb8b','#81a1c1','#b48ead','#88c0d0','#e5e9f0']},
 {name:'Dracula',bg:'#282a36',fg:'#f8f8f2',accent:'#bd93f9',frame:'#21222c',tab:'#343746',muted:'#c4c6d0',branch:'#50fa7b',ansi:['#21222c','#ff5555','#50fa7b','#f1fa8c','#bd93f9','#ff79c6','#8be9fd','#f8f8f2']},
 {name:'Gruvbox',bg:'#282828',fg:'#ebdbb2',accent:'#fabd2f',frame:'#1d2021',tab:'#3c3836',muted:'#bdae93',branch:'#b8bb26',ansi:['#282828','#cc241d','#98971a','#d79921','#458588','#b16286','#689d6a','#a89984']},
+{name:'Ocean',bg:'#102330',fg:'#d8edf4',accent:'#67d4ef',frame:'#0b1923',tab:'#173342',muted:'#9bbac7',branch:'#8ee0b8',ansi:['#173342','#f28b9b','#8ee0b8','#eed49a','#67b9ef','#b8a5ee','#67d4ef','#d8edf4']},
+{name:'Sakura',bg:'#291f2d',fg:'#f0dce9',accent:'#efa3c8',frame:'#201823',tab:'#392b3e',muted:'#c8a9bd',branch:'#b7d6a0',ansi:['#392b3e','#ee8a9d','#b7d6a0','#e9cf9d','#9dbbe8','#c6a3e3','#9ed6d5','#f0dce9']},
+{name:'Ember',bg:'#291e19',fg:'#f1ddcc',accent:'#ffb070',frame:'#201611',tab:'#3a2b23',muted:'#c6ab96',branch:'#c4d18b',ansi:['#3a2b23','#ef8d80','#c4d18b','#eaca80','#9db8d6','#d0a1c4','#99c9bf','#f1ddcc']},
+{name:'Forest',bg:'#182720',fg:'#dce9dc',accent:'#8ad3aa',frame:'#101d17',tab:'#24382c',muted:'#a6bda9',branch:'#d4d994',ansi:['#24382c','#dc9292','#8ad3aa','#d4d994','#94b8db','#c3a0d4','#92d1cf','#dce9dc']},
+{name:'Mono',bg:'#202124',fg:'#eeeeee',accent:'#d2d7df',frame:'#151619',tab:'#303238',muted:'#b7bdc8',branch:'#a5c1b4',ansi:['#303238','#d6a5a5','#a5c1b4','#c9c3a5','#a5b8d6','#bca5d6','#a5c9cd','#eeeeee']},
+{name:'Lavender Light',bg:'#f2effa',fg:'#39334d',accent:'#7857aa',frame:'#e4ddef',tab:'#eae4f4',muted:'#655976',branch:'#526d46',ansi:['#39334d','#aa486a','#526d46','#876c27','#4e6da4','#7857aa','#397c82','#e4ddef']},
 {name:'Paper',bg:'#f4f1ea',fg:'#383b42',accent:'#467599',frame:'#e6e1d7',tab:'#ebe7de',muted:'#5b625a',branch:'#52732d',ansi:['#383b42','#a63e39','#52732d','#80651c','#467599','#81528b','#347b79','#ddd8cf']}
 ];
 /** Apply the shared background opacity while keeping foreground text opaque. */
@@ -17,9 +23,9 @@ function App(){const[theme,setTheme]=useState(0),[font,setFont]=useState('JetBra
 const [frame,setFrame]=useState('#161720'),[tabBg,setTabBg]=useState('#202231'),[activeBg,setActiveBg]=useState('#7aa2f7'),[activeFg,setActiveFg]=useState('#161720'),[inactiveFg,setInactiveFg]=useState('#a3a9b1'),[directory,setDirectory]=useState(false),[git,setGit]=useState(false);
 const [directoryColor,setDirectoryColor]=useState('#161720'),[branchColor,setBranchColor]=useState('#161720');
 /** Apply every palette color together without changing typography or opacity. */
-function applyPreset(index:number){const palette=themes[index];setTheme(index);setFrame(palette.frame);setTabBg(palette.tab);setActiveBg(palette.accent);setActiveFg(palette.frame);setInactiveFg(palette.muted);setDirectoryColor(palette.name==='Paper'?palette.bg:palette.frame);setBranchColor(palette.name==='Paper'?palette.bg:palette.frame);setDirectoryBg(palette.accent);setBranchBg(palette.branch);setNotice(`${palette.name} applied to all colors`);}
+function applyPreset(index:number){const palette=themes[index];setTheme(index);setFrame(palette.frame);setTabBg(palette.tab);setActiveBg(palette.accent);setActiveFg(palette.frame);setInactiveFg(palette.muted);setDirectoryColor(['Paper','Lavender Light'].includes(palette.name)?palette.bg:palette.frame);setBranchColor(['Paper','Lavender Light'].includes(palette.name)?palette.bg:palette.frame);setDirectoryBg(palette.accent);setBranchBg(palette.branch);setNotice(`${palette.name} applied to all colors`);}
 const [directoryBg,setDirectoryBg]=useState('#7aa2f7'),[branchBg,setBranchBg]=useState('#9ece6a'),[titleOpacity,setTitleOpacity]=useState(95),[linkTitleOpacity,setLinkTitleOpacity]=useState(true);
-const isCustom=frame!==t.frame||tabBg!==t.tab||activeBg!==t.accent||activeFg!==t.frame||inactiveFg!==t.muted||directoryColor!==(t.name==='Paper'?t.bg:t.frame)||branchColor!==(t.name==='Paper'?t.bg:t.frame)||directoryBg!==t.accent||branchBg!==t.branch;
+const isCustom=frame!==t.frame||tabBg!==t.tab||activeBg!==t.accent||activeFg!==t.frame||inactiveFg!==t.muted||directoryColor!==(['Paper','Lavender Light'].includes(t.name)?t.bg:t.frame)||branchColor!==(['Paper','Lavender Light'].includes(t.name)?t.bg:t.frame)||directoryBg!==t.accent||branchBg!==t.branch;
 const effectiveTitleOpacity=linkTitleOpacity?opacity:titleOpacity;
 const starship=`# Merge into ~/.config/starship.toml (requires Starship shell setup)\n[directory]\nstyle = 'bold fg:${directoryColor} bg:${directoryBg}'\n\n[git_branch]\nstyle = 'bold fg:${branchColor} bg:${branchBg}'\n\n[git_status]\nstyle = 'fg:${branchColor} bg:${branchBg}'\n`;
 /** Copy shell prompt colors separately from the WezTerm configuration. */
